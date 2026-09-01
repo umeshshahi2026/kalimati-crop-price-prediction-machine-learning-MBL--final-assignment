@@ -1,0 +1,5 @@
+Model,MAE,MSE,RMSE,R2
+Linear Regression,3.965,51.547,7.18,0.9186
+Ridge Regression,3.966,51.543,7.179,0.9186
+Decision Tree Regressor,4.496,65.28,8.08,0.8969
+SVR,4.875,83.179,9.12,0.8686

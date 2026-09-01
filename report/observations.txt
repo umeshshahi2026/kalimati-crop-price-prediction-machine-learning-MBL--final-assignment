@@ -1,0 +1,47 @@
+EDA Observations (paper ko Results/Discussion section ko lagi)
+1. Onion sabai bhanda volatile crop — std deviation 41.6 (Potato 16.7, Tomato 22.2 bhanda dherai badi), price trend graph ma sabai bhanda thulo spikes (140 samma). Kaaran: India bata import huने भएले supply chain disruption ले dherai affect garcha.
+2. Monsoon season ma price maathi + volatile hunчha — boxplot ma sabai crop ko Monsoon box maathi ra outliers dherai. Kaaran: baadi/pahiro le supply disrupt garcha.
+3. Data leakage/aggregation issue bhetiyo ra fix garyou — sub-varieties (jastai "Onion Dry" vs "Onion Green") lai group नगरी lag feature banauda correlation galat (Onion=0.058) dekhieko thiyo. Daily aggregation (groupby(['Crop','Date'])) garepachi correlation thik bhayo — yo methodology section ko strong point ho.
+4. Price_Lag1 ra Price_Lag7 bic 0.83 correlation — hijo ra hapta agadiko price aapasma similar, matlab price ekदम achानक change hudaina.
+5. Data leakage fix — before aggregation, lag correlation was misleadingly 
+   low (Onion: 0.058) because sub-varieties (e.g., "Onion Dry" vs "Onion 
+   Green") were mixed in the same time series. After grouping by (Crop, 
+   Date) to compute one daily average price per crop, lag correlations 
+   became strong and realistic:
+   - Onion: 0.965
+   - Potato: 0.976
+   - Tomato: 0.958
+   This confirms Price_Lag1 is a powerful predictor for the models.
+   6. Model Comparison Results:
+   Linear Regression: MAE=3.965, RMSE=7.180, R²=0.9186 (best)
+   Ridge Regression:   MAE=3.966, RMSE=7.179, R²=0.9186 (best, tied)
+   Decision Tree:      MAE=4.496, RMSE=8.080, R²=0.8969
+   SVR:                MAE=4.875, RMSE=9.120, R²=0.8686
+   
+   Linear and Ridge outperform tree-based and kernel methods, suggesting 
+   the price relationship (especially via Price_Lag1) is predominantly 
+   linear. This aligns with the strong lag correlations found in EDA 
+   (0.95-0.98 per crop).
+   7. Feature Scaling Comparison (Comparative Study):
+   Linear Regression: R² unchanged (0.9186 → 0.9186) — scale-invariant model
+   Ridge Regression:   R² unchanged (0.9186 → 0.9186) — scale-invariant model
+   Decision Tree:      R² unchanged (0.8969 → 0.8969) — threshold-based splits, scale-invariant
+   SVR:                R² improved slightly (0.8658 → 0.8686) — distance-based model,
+                        benefits from scaling but improvement was modest since 
+                        Price_Lag1/Lag7 already shared a similar numeric range.
+   
+   Conclusion: Feature scaling has negligible effect on tree-based and linear 
+   models, and only a modest effect on SVR in this dataset — because the 
+   dominant features (lag prices) already occupied a comparable scale.
+   8. Actual vs Predicted Analysis (Linear Regression, best model):
+   Points cluster tightly around the perfect-prediction line, especially 
+   in the lower price range (25-100 NPR/Kg). Slight scatter increases at 
+   higher prices (150-200 NPR/Kg), corresponding to rare price spikes 
+   (mainly from Onion volatility).
+
+9. Residual Analysis:
+   Residuals are randomly scattered around zero with no strong systematic 
+   pattern, confirming the model has no major bias. A mild increase in 
+   residual spread at higher predicted prices (heteroscedasticity) suggests 
+   the model is slightly less precise for extreme/rare price values — a 
+   known limitation to note in the paper's Discussion/Limitations section.
