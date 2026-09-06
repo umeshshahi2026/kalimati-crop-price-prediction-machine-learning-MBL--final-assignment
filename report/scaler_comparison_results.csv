@@ -1,0 +1,5 @@
+Scaler,MAE,R2
+None (raw features),5.595,0.8658
+StandardScaler,4.875,0.8686
+MinMaxScaler,4.638,0.8908
+RobustScaler,4.686,0.8786

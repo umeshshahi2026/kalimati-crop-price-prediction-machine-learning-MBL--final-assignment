@@ -1,0 +1,4 @@
+Feature Subset,MAE,R2
+"Calendar only (Month, Year, Crop, Season)",14.49,0.3358
+"Lag only (Price_Lag1, Price_Lag7)",3.938,0.9184
+All features,3.965,0.9186

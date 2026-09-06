@@ -1,0 +1,5 @@
+Model,Best Parameters,R2 (Default),R2 (Tuned),Improvement,MAE (Tuned)
+Ridge Regression,{'alpha': 0.01},0.9186,0.9186,-0.0,3.965
+Lasso Regression,{'alpha': 0.01},0.9184,0.9186,0.0002,3.96
+Decision Tree Regressor,"{'max_depth': 6, 'min_samples_leaf': 10}",0.8969,0.9133,0.0164,4.181
+SVR,"{'C': 100, 'epsilon': 0.1, 'kernel': 'rbf'}",0.8686,0.8708,0.0022,4.993
